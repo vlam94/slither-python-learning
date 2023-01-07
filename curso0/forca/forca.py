@@ -66,7 +66,7 @@ _/ \_ |
 =========''']
 chutes=[]
 palavras=str() #atualizar com novas palavras usando .append e quando sair reescrever palavras.txt a partir do palavras[]
-#with open('curso bosta/forca/palavras.txt') as f: #vscode
+#with open('cursos/curso0/forca/palavras.txt') as f: #vscode
 with open("palavras.txt") as f: #terminal
     for line in f:
         palavras+=line.strip().upper()
@@ -88,14 +88,17 @@ def geraQuiz(palavra):
 def chuta():
     global chutes
     while True: #erros=True
-        chute = input("Chute uma letra:\n")[0].upper()
-        while chute==[]:
-            chute=input()[0].upper()
+        chute=input("Chute uma letra:\n")
+        if not chute:
+            continue
+        chute=chute[0].upper()            
         if len(chutes)>=1 and chute in chutes:
-            chute=input("\n\nLetra repetida, chute outra:\n").upper()
-        elif not (ord("A")<=ord(chute)<=ord("Z")): #cruzes q feio
-            chute=input("\n\nChute apenas letras (Ç=C):\n").upper()
-        else: return chute
+            print("\n a letra '%s' já foi chutada\n"%chute)
+            continue
+        if not (ord("A")<=ord(chute)<=ord("Z")): #cruzes q feio
+            print("\n'%s' não é válido\nchute apenas letras (Ç=C):\n"%chute)
+            continue
+        return chute
 
 
 def checaChute(palavra,chute,quiz):
@@ -119,7 +122,7 @@ def geraImg(quiz):
             abcd.remove(l)
             print("* %s *"%l)
         for l in quiz:
-            if l != '_':
+            if l in abcd:
                 abcd.remove(l)
         print("*****\n")
         spr=2*len(abcd)+1
@@ -234,7 +237,7 @@ while True:
    | ||             $
    | ||             $
    | ||            ,^.
-   | ||            | |
+   | ||            | | *snap*
    | ||            `.'
    | || 
    | || 
