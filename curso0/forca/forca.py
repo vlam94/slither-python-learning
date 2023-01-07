@@ -96,7 +96,7 @@ def chuta():
             print("\n a letra '%s' já foi chutada\n"%chute)
             continue
         if not (ord("A")<=ord(chute)<=ord("Z")): #cruzes q feio
-            print("\n'%s' não é válido\nchute apenas letras (Ç=C):\n"%chute)
+            print("\n'%s' não é válido\nchute apenas letras (Ç=C)\n"%chute)
             continue
         return chute
 
