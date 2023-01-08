@@ -350,7 +350,7 @@ while True:
     if len(forca[0])<=2:
         continue #erro de palavra vazia
     #print(forca[0]) #peep/cheat
-    while pos<8:
+    while pos<9:
         chute=chuta()
         forca[1]=checaChute(forca[0],chute,forca[1])
         geraImg(forca[1])
