@@ -350,9 +350,11 @@ while True:
     if len(forca[0])<=2:
         continue #erro de palavra vazia
     #print(forca[0]) #peep/cheat
-    while pos<9:
+    while True: #era while pos<8 mas a img tava ficando errada
         chute=chuta()
         forca[1]=checaChute(forca[0],chute,forca[1])
+        if pos==9: #tive que fazer pra acertar a imagem
+            break
         geraImg(forca[1])
         win = bool('_' not in forca[1])
         if win:
