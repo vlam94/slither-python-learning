@@ -212,8 +212,8 @@ FORCAIMG= ['''
 ''']
 chutes=[]
 palavras=str() #atualizar com novas palavras usando .append e quando sair reescrever palavras.txt a partir do palavras[]
-with open('slither-python-learning/curso0/forca/palavras.txt') as f: #vscode
-#with open("palavras.txt") as f: #terminal
+#with open('slither-python-learning/curso0/forca/palavras.txt') as f: #vscode
+with open("palavras.txt") as f: #terminal
     for line in f:
         palavras+=line.strip().upper()
         palavras+=' '
