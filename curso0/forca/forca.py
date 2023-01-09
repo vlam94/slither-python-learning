@@ -222,7 +222,10 @@ with open("palavras.txt") as f: #terminal
 
 def escolhePalavra():
     global palavras
-    return random.choice(palavras)
+    while True:
+        plve=random.choice
+        if len(plve)>2:
+            return plve
 
 
 def geraQuiz(palavra):
@@ -347,8 +350,8 @@ $R@i.~~ !     :   ~$$$$$B$$en:``
     ''')
 while True:    
     forca=start()
-    if len(forca[0])<=2:
-        continue #erro de palavra vazia
+    #if len(forca[0])<=2: #erro corrigido diretamente pela função escolhePalavra
+        #continue #erro de palavra vazia
     #print(forca[0]) #peep/cheat
     while True: #era while pos<8 mas a img tava ficando errada
         chute=chuta()
