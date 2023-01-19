@@ -1,6 +1,6 @@
 import random
-pos=0
-FORCAIMG= ['''
+marcadorForca=0
+imagemForca= [''' #iniciar imgs em outro arquivo ?
   ___________.._______
 | .__________))______|
 | | / /      ||
@@ -211,9 +211,9 @@ FORCAIMG= ['''
 
 ''']
 chutes=[]
-palavras=str() #atualizar com novas palavras usando .append e quando sair reescrever palavras.txt a partir do palavras[]
-#with open('slither-python-learning/curso0/forca/palavras.txt') as f: #vscode
-with open("palavras.txt") as f: #terminal
+palavras=str() 
+with open('slither-python-learning/curso0/forca/palavras.txt') as f: #vscode
+#with open("palavras.txt") as f: #terminal
     for line in f:
         palavras+=line.strip().upper()
         palavras+=' '
@@ -223,13 +223,13 @@ with open("palavras.txt") as f: #terminal
 def escolhePalavra():
     global palavras
     while True:
-        plve=random.choice(palavras)
-        if len(plve)>2:
-            return plve
+        palavraEscolhida = random.choice (palavras)
+        if len (palavraEscolhida) >2:
+            return palavraEscolhida
 
 
 def geraQuiz(palavra):
-    quiz=list()
+    quiz = list()
     for l in palavra:
         quiz.append("_")
     return quiz
@@ -239,12 +239,12 @@ def chuta():
     while True: #erros=True
         chute=input("Chute uma letra:\n")
         if chute=="exit":
-            bye()
+            bye() #sair do programa
         if not chute:
             continue
-        chute=chute[0].upper()            
-        if len(chutes)>=1 and chute in chutes:
-            print("\n a letra '%s' já foi chutada\n"%chute)
+        chute=chute[0].upper() #transforma o input em uma unica letra           
+        if len(chutes)>=1 and chute in chutes: #verifica erros
+            print("\n a letra '%s' já foi chutada\n" %chute) 
             continue
         if not (ord("A")<=ord(chute)<=ord("Z")): #cruzes q feio
             print("\n'%s' não é válido\nchute apenas letras (Ç=C)\n"%chute)
@@ -253,21 +253,21 @@ def chuta():
 
 
 def checaChute(palavra,chute,quiz):
-    global pos
+    global marcadorForca
     i=0
     for l in palavra:
         if chute == l:
             quiz[i]=chute
         i+=1
     if chute not in quiz:
-        pos+=1
+        marcadorForca+=1
         chutes.append(chute)
     return quiz
 
 def geraImg(quiz):
-    global pos, FORCAIMG, chutes
-    if pos>0:
-        abcd="A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(' ')
+    global marcadorForca, imagemForca, chutes
+    if marcadorForca>0:
+        abcd="A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(' ') #from "charalfaber(a,z)"
         print ("\n\nseus chutes errados:\n*****")
         for l in chutes:
             abcd.remove(l)
@@ -278,13 +278,13 @@ def geraImg(quiz):
         print("*****\n")
         spr=2*len(abcd)+1
         print("letras restantes:",str('*'*(spr-17)),"\n  %s*\n"%' '.join(abcd),"\b\b",str('*'*spr),"\n")
-    print ('                %s' %FORCAIMG[pos])
+    print ('                %s' %imagemForca[marcadorForca])
     print("\nA palavra é: ",' '.join(quiz),"\n\n")
     return
 
 def start():
-    global pos, chutes
-    pos=0
+    global marcadorForca, chutes
+    marcadorForca=0
     chutes=[]
     forca=[None,None]
     forca[0]=escolhePalavra()
@@ -323,7 +323,7 @@ def addPalavra():
     return
 
 def winPrint(win):
-    global palavras, pos
+    global palavras, marcadorForca
     if win:
         palavras.remove(forca[0]) #retira reocorrencia de palavras
         print (u'''
@@ -335,10 +335,10 @@ def winPrint(win):
 **************
             
             ''')
-        if pos==0: # ***o elif meio q "soma"(and) "condições negativas" pro else, é isso?*** #viagens -tinha um elif aqui :(
+        if marcadorForca==0: # ***o elif meio q "soma"(and) "condições negativas" pro else, é isso?*** #viagens -tinha um elif aqui :(
             print("*1#1#1#1#1#1#*\n*DE PRIMEIRA!*\n*1#1#1#1#1#1#*")
         else:
-            print(u"Você teve %i erros\n"%pos)
+            print(u"Você teve %i erros\n"%marcadorForca)
     else:
         print (u'''
   ___________.._______
@@ -375,18 +375,18 @@ def winPrint(win):
 
 
 def fim(win):
-    global pos
-    if pos == 9 or win:
+    global marcadorForca
+    if marcadorForca == 9 or win:
         winPrint(win)
         while True:
             if win:
-                end = input("\n\nDeseja jogar novamente?(S/N)\n**********\n* BONUS! * - adicione ate 2 palavras ao jogo (A)\n**********\n")[0].upper()
-                if end=='A':
+                acabou = input("\n\nDeseja jogar novamente?(S/N)\n**********\n* BONUS! * - adicione ate 2 palavras ao jogo (A)\n**********\n")[0].upper()
+                if acabou=='A':
                     addPalavra() #é lega chamar função dentro de outra assim em qqr linguagem ou só em algumas? Importaria eu declarar uma antes da outra em outra linguagem?
-                    end = input("\n\nDeseja jogar novamente?(S/N)\n")[0].upper() #tem uma maneira melhor de organizar os módulos?
+                    acabou = input("\n\nDeseja jogar novamente?(S/N)\n")[0].upper() #tem uma maneira melhor de organizar os módulos?
             else:
-                    end = input("\n\nDeseja jogar novamente?(S/N)\n")[0].upper()
-            if end=='N':
+                    acabou = input("\n\nDeseja jogar novamente?(S/N)\n")[0].upper()
+            if acabou=='N':
                 bye()
             else:
                 print("\n\nVAMOS JOGAR NOVAMENTE!!\n\n\n\n\n") 
@@ -451,7 +451,7 @@ while True:
     #if len(forca[0])<=2: #erro corrigido diretamente pela função escolhePalavra
         #continue #erro de palavra vazia (corrigido ^)
     #print(forca[0]) #peep/cheat
-    while True: #era while pos<8 mas a img tava ficando errada
+    while True: #era while marcadorForca<8 mas a img tava ficando errada
         chute=chuta()
         forca[1]=checaChute(forca[0],chute,forca[1])
         if fim(bool('_' not in forca[1])): #olha como tava antes (commit: e74bae6556e79143a1ecf77f62decf98c13503b2)
