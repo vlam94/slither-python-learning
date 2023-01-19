@@ -1,6 +1,6 @@
 import random
-marcadorForca=0
-imagemForca= [''' #iniciar imgs em outro arquivo ?
+marcador_forca=0 #iniciar imgs em outro arquivo ?
+imagem_forca= [''' 
   ___________.._______
 | .__________))______|
 | | / /      ||
@@ -253,20 +253,20 @@ def chuta():
 
 
 def checaChute(palavra,chute,quiz):
-    global marcadorForca
+    global marcador_forca
     i=0
     for l in palavra:
         if chute == l:
             quiz[i]=chute
         i+=1
     if chute not in quiz:
-        marcadorForca+=1
+        marcador_forca+=1
         chutes.append(chute)
     return quiz
 
 def geraImg(quiz):
-    global marcadorForca, imagemForca, chutes
-    if marcadorForca>0:
+    global marcador_forca, imagem_forca, chutes
+    if marcador_forca>0:
         abcd="A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(' ') #from "charalfaber(a,z)"
         print ("\n\nseus chutes errados:\n*****")
         for l in chutes:
@@ -276,15 +276,15 @@ def geraImg(quiz):
             if l in abcd:
                 abcd.remove(l)
         print("*****\n")
-        spr=2*len(abcd)+1
-        print("letras restantes:",str('*'*(spr-17)),"\n  %s*\n"%' '.join(abcd),"\b\b",str('*'*spr),"\n")
-    print ('                %s' %imagemForca[marcadorForca])
+        sprinkles=2*len(abcd)+1
+        print("letras restantes:",str('*'*(sprinkles-17)),"\n  %s*\n"%' '.join(abcd),"\b\b",str('*'*sprinkles),"\n")
+    print ('                %s' %imagem_forca[marcador_forca])
     print("\nA palavra é: ",' '.join(quiz),"\n\n")
     return
 
 def start():
-    global marcadorForca, chutes
-    marcadorForca=0
+    global marcador_forca, chutes
+    marcador_forca=0
     chutes=[]
     forca=[None,None]
     forca[0]=escolhePalavra()
@@ -323,7 +323,7 @@ def addPalavra():
     return
 
 def winPrint(win):
-    global palavras, marcadorForca
+    global palavras, marcador_forca
     if win:
         palavras.remove(forca[0]) #retira reocorrencia de palavras
         print (u'''
@@ -335,10 +335,10 @@ def winPrint(win):
 **************
             
             ''')
-        if marcadorForca==0: # ***o elif meio q "soma"(and) "condições negativas" pro else, é isso?*** #viagens -tinha um elif aqui :(
+        if marcador_forca==0: # ***o elif meio q "soma"(and) "condições negativas" pro else, é isso?*** #viagens -tinha um elif aqui :(
             print("*1#1#1#1#1#1#*\n*DE PRIMEIRA!*\n*1#1#1#1#1#1#*")
         else:
-            print(u"Você teve %i erros\n"%marcadorForca)
+            print(u"Você teve %i erros\n"%marcador_forca)
     else:
         print (u'''
   ___________.._______
@@ -375,8 +375,8 @@ def winPrint(win):
 
 
 def fim(win):
-    global marcadorForca
-    if marcadorForca == 9 or win:
+    global marcador_forca
+    if marcador_forca == 9 or win:
         winPrint(win)
         while True:
             if win:
@@ -451,7 +451,7 @@ while True:
     #if len(forca[0])<=2: #erro corrigido diretamente pela função escolhePalavra
         #continue #erro de palavra vazia (corrigido ^)
     #print(forca[0]) #peep/cheat
-    while True: #era while marcadorForca<8 mas a img tava ficando errada
+    while True: #era while marcador_forca<8 mas a img tava ficando errada
         chute=chuta()
         forca[1]=checaChute(forca[0],chute,forca[1])
         if fim(bool('_' not in forca[1])): #olha como tava antes (commit: e74bae6556e79143a1ecf77f62decf98c13503b2)
