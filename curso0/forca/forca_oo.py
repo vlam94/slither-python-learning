@@ -32,46 +32,38 @@ class Grafico(Importavel):
                 ibagens[i]+=line
         self.conteudo=ibagens
 
-class Forca():
-
-    def __init__(self):
-        self.palavra = PalavraEscolhida("slither-python-learning/curso0/forca/palavras.txt")
-        self.enforca = Grafico("slither-python-learning/curso0/forca/forcaimg.txt")
-        
-    def __str__(self, num_erros, letras_chutadas):
-        return self.enforca.__str__(num_erros)
-
-
-    def quiz(self,letras_chutadas,chute_errado):
-        quiz=""
-        if chute_errado:
-            print("você já chutou: %s"%letras_chutadas)
-        for letra in self.palavra.conteudo[0]:
-            if letra in letras_chutadas:
-                quiz += " %s "%letra
-
-            else:
-                quiz += " _ "
-        print (u"A palavra é: %s\n"%quiz)
-
-            
-        return quiz
 
 class Jogo():
 
     def __init__(self):
         self.ibagem = Grafico("slither-python-learning/curso0/forca/jogoimg.txt")
-        self.forca = Forca()
+        self.forca = Grafico("slither-python-learning/curso0/forca/forcaimg.txt")
+        self.palavra = PalavraEscolhida("slither-python-learning/curso0/forca/palavras.txt")
+        self.quiz = ""
+        for letra in self.palavra.conteudo:
+            self.quiz+=" _ "
+        self.chutes_errados = []
         self.estado = 0
         self.num_erros = 0
     
     def __str__(self,partida):
-        if partida: return self.forca.__str__(self.num_erros)
+        if partida: return self.forca.__str__(self.num_erros)+f'\n\na palavra é: {self.quiz}'
         return self.ibagem.__str__(self.estado)
-        
+    """
+    def quiz(self):
+        ret=""
+        for letra in self.palavra.conteudo[0]:
+            if letra in self.letras_chutadas:
+                ret += " %s "%letra
+            else:
+                ret+= " _ "
+        print (u"A palavra é: %s\n"%ret)         
+        return ret
+"""
     def partida(self):
         print(self.__str__(True))
-        self.forca.quiz
+        while self.num_erros<9:
+            break
         return True
 
     def inicio (self):
@@ -87,8 +79,9 @@ class Jogo():
     def encerra (self):
         print(self.ibagem.conteudo[-1])
         exit()
-        
+  
 jogo = Jogo()
 jogo.inicio()
 while jogo.partida():
     continue
+

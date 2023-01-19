@@ -246,7 +246,7 @@ def chuta():
         if len(chutes)>=1 and chute in chutes: #verifica erros
             print("\n a letra '%s' já foi chutada\n" %chute) 
             continue
-        if not (ord("A")<=ord(chute)<=ord("Z")): #cruzes q feio
+        if chute.isalpha(): #beeeeeeeem menos feio
             print("\n'%s' não é válido\nchute apenas letras (Ç=C)\n"%chute)
             continue
         return chute
