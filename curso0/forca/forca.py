@@ -246,7 +246,7 @@ def chuta():
         if len(chutes)>=1 and chute in chutes: #verifica erros
             print("\n a letra '%s' já foi chutada\n" %chute) 
             continue
-        if chute.isalpha(): #beeeeeeeem menos feio
+        if not chute.isalpha(): #beeeeeeeem menos feio
             print("\n'%s' não é válido\nchute apenas letras (Ç=C)\n"%chute)
             continue
         return chute
@@ -299,12 +299,9 @@ def addPalavra():
     f = open ("palavras.txt",'a')
     plv = input("\ninsira palavra sem 'ç' e acentos,\nou digite * para sair do editor: ").upper()
     while plv != '*':
-        for l in plv:
-            wrt=bool(ord("A")<=ord(l.upper())<=ord("Z"))
-            if not wrt:
-                plv = input("\ninsira palavra sem 'ç' e acentos,\nou digite * para sair do editor: ").upper()
-                break
-        if wrt:
+        if not plv.isalpha():
+            plv = input("\ninsira palavra sem 'ç' e acentos,\nou digite * para sair do editor: ").upper() 
+        else:
             if plv in palavras:
                 print("\nesta palavra já existe no jogo\n")
             else:
