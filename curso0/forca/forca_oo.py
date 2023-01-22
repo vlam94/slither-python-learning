@@ -299,9 +299,7 @@ class Jogo():
         self.checaChute(chute)
         return
     
-
-
-
+    
     def win(self):
         if not "_" in self.geraQuiz():
             return True
@@ -316,11 +314,10 @@ class Jogo():
         plv="#"
         while not (plv.isalpha() or plv=='*'):
             plv = input("\nInsira a palavra com acentuação correta,\nou digite * para sair do editor: ").upper() 
-            for line in f:
-                if plv == line.strip():
-                    print("\nesta palavra já existe no jogo!\n")
-                    plv="#"
-                    continue
+            if plv in f.readlines()
+                print("\nesta palavra já existe no jogo!\n")
+                plv="#"
+                continue
             if input("\nA palavra %s está correta?\nlembre-se da acentuação correta!\n(S/N): "%plv).upper().startswith('S'):
                 f.write("\n%s"%plv)
                 print("\npalavra %s adicionada com sucesso\n\n"%plv)
@@ -352,12 +349,14 @@ class Jogo():
     
     def inicio (self):
         print(self.ibagem.conteudo[0])
+        self.ishardmode=bool(input("\nDigite 'h' para modo dificil\nou pressione enter↵ para modo normal").lower().startswith('h'))
+        if self.ishardmode:
+            print("\n\n%s* BOA SORTE! *%s\n\n"%' '*14)
         if input("Vocẽ gostaria de ler as regras?(s/n):\n").lower().startswith("s"):
             print(self.ibagem.conteudo[1])
-            input(u"\nPressione enter↵ para continuar                                 ")
+            input(u"\nPressione enter↵ para continuar",' '*35)
         return
 
-jogo=Jogo(input("pressione enter↵ para entrar    \n\n\n").lower().startswith("h"))
 jogo.inicio()
 jogo.jogar()
 
