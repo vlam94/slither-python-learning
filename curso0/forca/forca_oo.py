@@ -8,19 +8,24 @@ class Importavel():
         return f'{self.conteudo[pos]}'
 
 
-class PalavraEscolhida(Importavel):
+class Palavra(Importavel):
 
     def __init__(self, endereco):
         Importavel.__init__(self)
         self.endereco= endereco
-        self.conteudo = self.escolhePalavra(endereco)
         
-    def escolhePalavra(endereco):
+        
+    def escolhePalavra(self):
         palavras=[]
-        with open (endereco) as f:
+        with open (f'{self.endereco}') as f:
             for line in f:
                 palavras.append(line.strip().upper())
-        return random.choice(palavras) #(str) override do tipo padrão de Importavel (list)
+                palavra = random.choice(palavras)
+        while palavra in self.conteudo or len(palavra) < 3:
+            palavra = random.choice(palavras)
+        self.conteudo.append(palavra)
+        return  
+
 
 
 class Grafico(Importavel):
@@ -43,10 +48,12 @@ class Jogo():
     def __init__(self,ishardmode):#(self,ishardmode) pra fazer assim o jogo teria que se iniciar antes
         self.ibagem = Grafico("slither-python-learning/curso0/forca/jogoimg.txt")
         self.forca = Grafico("slither-python-learning/curso0/forca/forcaimg.txt")
-        self.palavra = PalavraEscolhida("slither-python-learning/curso0/forca/palavras.txt")
+        self.palavra = Palavra("slither-python-learning/curso0/forca/palavras.txt")
+        self.palavra.escolhePalavra()
         self.ishardmode = ishardmode #(Fazer função de escolher dificuldade)
         self.chutes = []
         self.num_erros = int(ishardmode)
+        self.abcd = "A Ã Á Â B C Ç D E Ê É F G H I Í J K L M N O Ô Ó P Q R S T U Ú V W X Y Z".split(' ') #isalpha() aceita ẽ, ĩ, î, que não existem no português
     
     def __str__(self):
         if self.num_erros==0:
@@ -55,32 +62,31 @@ class Jogo():
                 
             
     def montaImagem(self):
-        forca = "\n\n\nSeus chutes:\n*****"
-        abcd="A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(' ')
+        ret = "\n\n\nSeus chutes:\n*****"
+        self.abcd
         for letra in self.chutes:
-            forca+="\n* %s *"%letra
-            abcd.remove(letra)
-        forca += u"\n*****\n\nVocê ainda pode chutar:"
-        forca=forca.split("\n") #"abre" pra juntar a img
+            ret+="\n* %s *"%letra
+        ret += u"\n*****\n\nVocê ainda pode chutar:"
+        ret=ret.split("\n") #"abre" pra juntar a img
         i=1
         for linha in self.ibagem.conteudo[2].split("\n"):
-            forca[i]+=' '*(50-len(forca[i])) + linha
+            ret[i]+=' '*(50-len(ret[i])) + linha
             i+=1
-        forca = "\n".join(forca) #"fecha" 
-        starline ="\n" + "*"*(len(abcd)*2+3)
-        forca += starline + "\n* %s *"%' '.join(abcd) + starline + "\n\n\n%s"%self.forca.__str__(self.num_erros)
-        return forca           
+        ret = "\n".join(ret) #"fecha" 
+        starline ="\n" + "*"*(len(self.abcd)*2+3)
+        ret += starline + "\n* %s *"%' '.join(self.abcd) + starline + "\n\n\n%s"%self.forca.__str__(self.num_erros)
+        return ret           
         
     
     def geraQuiz(self):
         ret=""
-        for letra in self.palavra.conteudo:
+        for letra in self.palavra.conteudo[-1]:
             if letra in self.chutes:
-                ret += " %s "%letra
+                ret += "%s "%letra
             else:
-                ret+= " _ "
+                ret+= "_ "
         print (u"A palavra é: %s\n"%ret)         
-        return bool("")
+        return ret
 
     def sair (self):
         print (self.ibagem.conteudo[-2])
@@ -89,6 +95,12 @@ class Jogo():
             exit()  
         return
 
+    def checaChute(self,chute):
+        if chute not in self.palavra.conteudo[-1]:
+            self.num_erros+=1+self.ishardmode
+        self.abcd.remove(chute)
+        self.chutes.append(chute)
+        return
 
     def chuta(self):
         while True: #erros=True
@@ -98,17 +110,15 @@ class Jogo():
             if not chute:
                 continue
             chute=chute[0].upper()            
-            if chute in self.chutes: 
-                print("\n a letra '%s' já foi chutada\n" %chute) 
-                continue
-            if chute.isalpha(): 
-                print("\n'%s' não é válido\nchute apenas letras (Ç=C)\n"%chute)
+            if chute not in self.abcd: 
+                print("\n'%s' não é válido\nou já foi chutado\n"%chute)
                 continue
             break
-        if chute not in self.palavra.conteudo:
-            self.num_erros+=1+self.ishardmode
-        self.chutes.append(chute)
+        self.checaChute(chute)
         return
+    
+
+
 
     def win(self):
         if not "_" in self.geraQuiz():
@@ -120,23 +130,23 @@ class Jogo():
             return
         lim=2#editar mais facil o limite
         cont=int(lim)
-        f = open (self.palavra.endereco,'a')
+        f = open (self.palavra.endereco,'r+')
         plv="#"
-        while plv != '*':
-            if not bool(cont):
-                print("\nvocê adicionou todas as %i palavras!\n"%lim)
-                break
-            while not plv.isalpha():
-                plv = input("\ninsira palavra sem 'ç' e acentos,\nou digite * para sair do editor: ").upper() 
-            if (palavra for palavra in f if plv==palavra):
-                print("\nesta palavra já existe no jogo\n")
-                plv="#"
-                continue
-            if input("\nDeseja adicionar a palavra %s ao jogo?(S/N)"%plv).upper().startswith('S'):
+        while not (plv.isalpha() or plv=='*'):
+            plv = input("\nInsira a palavra com acentuação correta,\nou digite * para sair do editor: ").upper() 
+            for line in f:
+                if plv == line.strip():
+                    print("\nesta palavra já existe no jogo!\n")
+                    plv="#"
+                    continue
+            if input("\nA palavra %s está correta?\nlembre-se da acentuação correta!\n(S/N): "%plv).upper().startswith('S'):
                 f.write("\n%s"%plv)
                 print("\npalavra %s adicionada com sucesso\n\n"%plv)
                 cont-=1
                 print(u"você ainda pode adicionar %i palavras\n"%cont)
+            if not bool(cont):
+                print("\nvocê adicionou todas as %i palavras!\n"%lim)
+                break
         f.close()
         return
 
@@ -149,11 +159,12 @@ class Jogo():
     def jogar(self):
         while self.num_erros<10:
             print(self)
-            self.chuta()
             if self.win():
-                print(self.ibagem.conteudo[3+bool(self.num_erros)])
+                print(self.ibagem.conteudo[4-bool(self.num_erros)])
+                print("você errou %i vezes\n\n"%self.num_erros)
                 self.addPalavra()
                 break
+            self.chuta()
         self.maisuma()
         return
     
@@ -166,6 +177,5 @@ class Jogo():
 
 jogo=Jogo(input("pressione enter↵ para entrar    ").lower().startswith("h"))
 jogo.jogar()
-jogo.maisUma()
 
 
