@@ -1,5 +1,6 @@
 
 import random
+import os
 
 class Importavel():
     def __init__(self, endereco=None):
@@ -51,7 +52,7 @@ class Jogo():
         self.forca = Grafico("forcaimg.txt")
         self.palavra = Palavra("palavras.txt")
         self.palavra.escolhePalavra()
-        self.ishardmode = ishardmode #(Fazer função de escolher dificuldade)
+        self.ishardmode = ishardmode #(Fazer função de escolher dificuldade?)
         self.chutes = []
         self.num_erros = int(ishardmode)
         self.abcd = "A Ã Á Â B C Ç D E Ê É F G H I Í J K L M N O Ô Ó P Q R S T U Ú V W X Y Z".split(' ') #isalpha() aceita ẽ, ĩ, î, que não existem no português
@@ -63,6 +64,7 @@ class Jogo():
                 
             
     def montaImagem(self):
+        lim=os.get_terminal_size()
         ret = "\n\n\nSeus chutes:\n*****"
         self.abcd
         for letra in self.chutes:
@@ -71,10 +73,10 @@ class Jogo():
         ret=ret.split("\n") #"abre" pra juntar a img
         i=3
         for linha in self.ibagem.conteudo[2].split("\n"):
-            ret[i]+=' '*(43-len(ret[i])) + linha
+            ret[i]+=' '*(lim-23-len(ret[i])) + linha
             i+=1
         ret = "\n".join(ret) #"fecha"
-        starline=str("\n" + "*"*(len(self.abcd)*2-1))
+        starline=str("\n" + "*"*(len(self.abcd)*2-1))[:lim]
         ret += starline + "\n%s"%' '.join(self.abcd) + starline + "\n\n\n%s"%self.forca.__str__(self.num_erros)
         return ret           
         
@@ -124,10 +126,10 @@ class Jogo():
             return True
         return False
 
-    def addPalavra(self):
+    def addPalavra(self): #da pra dividir essa função
         if not input(self.ibagem.conteudo[-4]):
             return
-        lim=2#editar mais facil o limite
+        lim=2+int(self.ishardmode)#editar mais facil o limite
         cont=int(lim)
         f = open (self.palavra.endereco,'r+')
         plv = str()
@@ -137,7 +139,7 @@ class Jogo():
                 continue
             if plv in f.readlines():
                 print("\nesta palavra já existe no jogo!\n")
-                plv="#"
+                f.seek(0)
                 continue
             if input("\nA palavra %s está correta?\nlembre-se da acentuação e ortografia!\n(S/N): "%plv).upper().startswith('S'):
                 f.write("\n%s"%plv)
@@ -157,14 +159,18 @@ class Jogo():
         self.jogar()    
 
     def jogar(self):
-        while self.num_erros<10:
+        while True:#jogar esse while todo para uma função recursiva "rodada"@
             print(self)
             if self.win():
                 print(self.ibagem.conteudo[4-bool(self.num_erros)])
-                print("você errou %i vezes\n\n"%self.num_erros)
                 self.addPalavra()
+                if bool(self.num_erros): print("você errou %i vezes\n\n"%self.num_erros)
+                break
+            if self.num_erros>9
                 break
             self.chuta()
+        if bool(self.num_erros)
+              print("você errou %i vezes\n\n"%self.num_erros)
         self.maisUma()
         return
     
