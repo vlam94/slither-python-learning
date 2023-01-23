@@ -380,7 +380,7 @@ def fim(win):
                 acabou = input("\n\nDeseja jogar novamente?(S/N)\n**********\n* BONUS! * - adicione ate 2 palavras ao jogo (A)\n**********\n")[0].upper()
                 if acabou=='A':
                     addPalavra() #é lega chamar função dentro de outra assim em qqr linguagem ou só em algumas? Importaria eu declarar uma antes da outra em outra linguagem?
-                    acabou = input("\n\nDeseja jogar novamente?(S/N)\n")[0].upper() #tem uma maneira melhor de organizar os módulos?
+                    acabou = input("\n\nDeseja jogar novamente?(S/N)\n")[0].upper() #tem uma maneira melhor de organizar os módulos!
             else:
                     acabou = input("\n\nDeseja jogar novamente?(S/N)\n")[0].upper()
             if acabou=='N':
