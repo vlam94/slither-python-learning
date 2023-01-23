@@ -1,456 +1,198 @@
+
 import random
-marcador_forca=0 #iniciar imgs em outro arquivo ?
-imagem_forca= [''' 
-  ___________.._______
-| .__________))______|
-| | / /      ||
-| |/ /       ||
-| | /        ||
-| |/         ||
-| |         ($%)
-| |        (    )
-| |         `--'
-| |
-| |      
-| |        
-| |         
-| |          
-| |           
-| |           
-| |           
-| |         
-""""""""""|""""""""|""""|
-|"|"""""""'""""""""'""|"|
-| |                   | |
-: :                   : :
-. .                   . .''', '''
-  ___________.._______
-| .__________))______|
-| | / /      ||
-| |/ /       ||
-| | /        ||.-''.
-| |/         |/  _  \\
-| |          ||  `/,|
-| |          (\\\\`_.'
-| |           `--'
-| |      
-| |      
-| |        
-| |         
-| |          
-| |           
-| |           
-| |           
-| |         
-""""""""""|""""""""|""""|
-|"|"""""""'""""""""'""|"|
-| |                   | |
-: :                   : :
-. .                   . .''', '''
-  ___________.._______
-| .__________))______|
-| | / /      ||
-| |/ /       ||
-| | /        ||.-''.
-| |/         |/  _  \\
-| |          ||  `/,|
-| |          (\\\\`_.'
-| |          -`--'
-| |          |. .|
-| |          |   | 
-| |          | . |  
-| |          |___|   
-| |          
-| |           
-| |           
-| |           
-| |         
-""""""""""|""""""""|""""|
-|"|"""""""'""""""""'""|"|
-| |                   | |
-: :                   : :
-. .                   . .''', '''
-  ___________.._______
-| .__________))______|
-| | / /      ||
-| |/ /       ||
-| | /        ||.-''.
-| |/         |/  _  \\
-| |          ||  `/,|
-| |          (\\\\`_.'
-| |         .-`--'
-| |        /Y . .|
-| |       // |   | 
-| |      //  | . |  
-| |          |___|   
-| |          
-| |           
-| |           
-| |           
-| |         
-""""""""""|""""""""|""""|
-|"|"""""""'""""""""'""|"|
-| |                   | |
-: :                   : :
-. .                   . .''', '''
-  ___________.._______
-| .__________))______|
-| | / /      ||
-| |/ /       ||
-| | /        ||.-''.
-| |/         |/  _  \\
-| |          ||  `/,|
-| |          (\\\\`_.'
-| |         .-`--'.
-| |        /Y . . Y\\
-| |       // |   | \\\\
-| |      //  | . |  \\\\
-| |          |___|   
-| |          
-| |           
-| |           
-| |           
-| |         
-""""""""""|""""""""|""""|
-|"|"""""""'""""""""'""|"|
-| |                   | |
-: :                   : :
-. .                   . .''', '''
-  ___________.._______
-| .__________))______|
-| | / /      ||
-| |/ /       ||
-| | /        ||.-''.
-| |/         |/  _  \\
-| |          ||  `/,|
-| |          (\\\\`_.'
-| |         .-`--'.
-| |        /Y . . Y\\
-| |       // |   | \\\\
-| |      //  | . |  \\\\ 
-| |          | __|   
-| |          ||
-| |          || 
-| |          || 
-| |          || 
-| |         
-""""""""""|""""""""|""""|
-|"|"""""""'""""""""'""|"|
-| |                   | |
-: :                   : :
-. .                   . .''', '''
-  ___________.._______
-| .__________))______|
-| | / /      ||
-| |/ /       ||
-| | /        ||.-''.
-| |/         |/  _  \\
-| |          ||  `/,|
-| |          (\\\\`_.'
-| |         .-`--'.
-| |        /Y . . Y\\
-| |       // |   | \\\\
-| |      //  | . |  \\\\
-| |          |   |   
-| |          ||'||
-| |          || ||
-| |          || ||
-| |          || ||
-| |         
-""""""""""|""""""""|""""|
-|"|"""""""'""""""""'""|"|
-| |                   | |
-: :                   : :
-. .                   . .''', '''
-  ___________.._______
-| .__________))______|
-| | / /      ||
-| |/ /       ||
-| | /        ||.-''.
-| |/         |/  _  \\
-| |          ||  `/,|
-| |          (\\\\`_.'
-| |         .-`--'.
-| |        /Y . . Y\\
-| |       // |   | \\\\
-| |      //  | . |  \\\\
-| |     ')   |   |   (`
-| |          ||'||
-| |          || ||
-| |          || ||
-| |          || ||
-| |         
-""""""""""|""""""""|""""|
-|"|"""""""'""""""""'""|"|
-| |                   | |
-: :                   : :
-. .                   . .''', '''
-  ___________.._______
-| .__________))______|
-| | / /      ||
-| |/ /       ||
-| | /        ||.-''.
-| |/         |/  _  \\
-| |          ||  `/,|
-| |          (\\\\`_.'
-| |         .-`--'.
-| |        /Y . . Y\\
-| |       // |   | \\\\
-| |      //  | . |  \\\\
-| |     ')   |   |   (`
-| |          ||'||
-| |          || ||
-| |          || ||
-| |          || ||
-| |         / | | \\
-""""""""""|"`-'"`-'|""""|
-|"|"""""""'""""""""'""|"|
-| |                   | |
-: :                   : :
-. .                   . .
+import os
 
-''']
-chutes=[]
-palavras=str() 
-with open('slither-python-learning/curso0/forca/palavras.txt') as f: #vscode
-#with open("palavras.txt") as f: #terminal
-    for line in f:
-        palavras+=line.strip().upper()
-        palavras+=' '
-    palavras=palavras.split(' ')
+class Importavel():
+    def __init__(self, endereco=None):
+        self.conteudo=[]
+
+    def __str__(self, pos):
+        return f'{self.conteudo[pos]}'
 
 
-def escolhePalavra():
-    global palavras
-    while True:
-        palavraEscolhida = random.choice (palavras)
-        if len (palavraEscolhida) >2:
-            return palavraEscolhida
+class PalavraRand(Importavel):
+
+    def __init__(self, endereco):
+        Importavel.__init__(self)
+        self.endereco= endereco
+        
+    def escolhePalavra(self):
+        f = open (f'{self.endereco}','r')
+        palavra=random.choice(f.readlines())
+        while palavra in self.conteudo or len(palavra) <4:
+            f.seek(0)
+            palavra =  random.choice(f.readlines())
+        self.conteudo.append(palavra.strip())
+        return
+    """    
+    def escolhePalavra(self):
+        palavras=[]
+        with open (f'{self.endereco}') as f:
+            for line in f:
+                palavras.append(line.strip().upper())
+                palavra = random.choice(palavras)
+        while palavra in self.conteudo or len(palavra) < 3:
+            palavra = random.choice(palavras)
+        self.conteudo.append(palavra)
+        return  
+"""
 
 
-def geraQuiz(palavra):
-    quiz = list()
-    for l in palavra:
-        quiz.append("_")
-    return quiz
-
-def chuta():
-    global chutes
-    while True: #erros=True
-        chute=input("Chute uma letra:\n")
-        if chute=="exit":
-            bye() #sair do programa
-        if not chute:
-            continue
-        chute=chute[0].upper() #transforma o input em uma unica letra           
-        if len(chutes)>=1 and chute in chutes: #verifica erros
-            print("\n a letra '%s' já foi chutada\n" %chute) 
-            continue
-        if not chute.isalpha(): #beeeeeeeem menos feio
-            print("\n'%s' não é válido\nchute apenas letras (Ç=C)\n"%chute)
-            continue
-        return chute
+class Grafico(Importavel):
+    def __init__(self, endereco):
+        Importavel.__init__(self)
+        ibagens=[""]
+        i=0
+        with open (endereco) as f:
+            for line in f:
+                if line == "@@@\n":
+                    i+=1
+                    ibagens.append("")
+                    continue
+                ibagens[i]+=line
+        self.conteudo=ibagens
 
 
-def checaChute(palavra,chute,quiz):
-    global marcador_forca
-    i=0
-    for l in palavra:
-        if chute == l:
-            quiz[i]=chute
-        i+=1
-    if chute not in quiz:
-        marcador_forca+=1
-        chutes.append(chute)
-    return quiz
+class Jogo():
 
-def geraImg(quiz):
-    global marcador_forca, imagem_forca, chutes
-    if marcador_forca>0:
-        abcd="A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(' ') #from "charalfaber(a,z)"
-        print ("\n\nseus chutes errados:\n*****")
-        for l in chutes:
-            abcd.remove(l)
-            print("* %s *"%l)
-        for l in quiz:
-            if l in abcd:
-                abcd.remove(l)
-        print("*****\n")
-        sprinkles=2*len(abcd)+1
-        print("letras restantes:",str('*'*(sprinkles-17)),"\n  %s*\n"%' '.join(abcd),"\b\b",str('*'*sprinkles),"\n")
-    print ('                %s' %imagem_forca[marcador_forca])
-    print("\nA palavra é: ",' '.join(quiz),"\n\n")
-    return
-
-def start():
-    global marcador_forca, chutes
-    marcador_forca=0
-    chutes=[]
-    forca=[None,None]
-    forca[0]=escolhePalavra()
-    forca[1]=geraQuiz(forca[0])
-    geraImg(forca[1])
-    return forca
-
-def addPalavra():
-    global palavras
-    lim=2#editar mais facil o limite
-    cont=int(lim)
-    f = open ("palavras.txt",'a')
-    plv = input("\ninsira palavra sem 'ç' e acentos,\nou digite * para sair do editor: ").upper()
-    while plv != '*':
-        if not plv.isalpha():
-            plv = input("\ninsira palavra sem 'ç' e acentos,\nou digite * para sair do editor: ").upper() 
-        else:
-            if plv in palavras:
-                print("\nesta palavra já existe no jogo\n")
-            else:
-                if input("\nDeseja adicionar a palavra %s ao jogo?(S/N)"%plv).upper().startswith('S'):
-                    f.write("\n%s"%plv)
-                    palavras.append(plv)
-                    print("\npalavra %s adicionada com sucesso\n\n"%plv)
-                    cont-=1
-                    print(u"você ainda pode adicionar %i palavras\n"%cont)
-                if not bool(cont):#gastação de onda usando bool hehehe
-                    print("\nvocê adicionou todas as %i palavras!\n"%lim)
-                    break
-
-        plv = input("insira palavra sem 'ç' e acentos,\nou digite * para sair do editor: ").upper()
-    f.close()
-    return
-
-def winPrint(win):
-    global palavras, marcador_forca
-    if win:
-        palavras.remove(forca[0]) #retira reocorrencia de palavras
-        print (u'''
-
+    def __init__(self,ishardmode=input("pressione enter↵ para entrar\nou digite 'hard' para modo dificil: ").lower().startswith('h')): #(self,ishardmode) pra fazer assim o jogo teria que se iniciar antes
+        self.ibagem = Grafico("jogoimg.txt")
+        self.forca = Grafico("forcaimg.txt")
+        self.palavra = PalavraRand("palavras.txt")#slither-python-learning/curso0/forca/
+        self.palavra.escolhePalavra()
+        self.ishardmode = ishardmode
+        self.chutes = []
+        self.num_erros = int(ishardmode)
+        self.abcd = "A Ã Á Â B C Ç D E Ê É F G H I Í J K L M N O Ô Õ Ó P Q R S T U Ú V W X Y Z".split(' ') #isalpha() aceita ẽ, ĩ, î, que não existem no português
+    
+    def __str__(self):
+        if self.num_erros==0:
+            return self.forca.__str__(self.num_erros)
+        return f'{self.montaImagem()}'
+                
             
-**************
-*  PARABÉNS  *
-*VOCÊ ACERTOU*
-**************
-            
-            ''')
-        if marcador_forca==0: # ***o elif meio q "soma"(and) "condições negativas" pro else, é isso?*** #viagens -tinha um elif aqui :(
-            print("*1#1#1#1#1#1#*\n*DE PRIMEIRA!*\n*1#1#1#1#1#1#*")
-        else:
-            print(u"Você teve %i erros\n"%marcador_forca)
-    else:
-        print (u'''
-  ___________.._______
-| .__________))______|
-| | / /      ||
-| |/ /       ||
-| | /        ||.-''.
-| |/         |/  _  \\
-| |          ||  x/x|
-| |          (\\\\`_.'
-| |         .-`--'.  *snap*
-| |        /Y . . Y\\
-| |       // |   | \\\\
-| |      //  | . |  \\\\
-| |     ')   |   |   (`
-| |          ||'||
-| |          || ||
-| |          || ||
-| |          || ||
-| |         / | | \\
-""""""""""|_`-' `-' |"""|
-|"|"""""""\ \   * * '"|"|
-| |        \ \*woosh* | |
-: :         \ \ * * * : :
-. .          `'       . .
-
-******************
-*   Que pena!    *
-* você falhou :( *
-******************
-            
-        ''')
-    return
-
-
-def fim(win):
-    global marcador_forca
-    if marcador_forca == 9 or win:
-        winPrint(win)
-        while True:
-            if win:
-                acabou = input("\n\nDeseja jogar novamente?(S/N)\n**********\n* BONUS! * - adicione ate 2 palavras ao jogo (A)\n**********\n")[0].upper()
-                if acabou=='A':
-                    addPalavra() #é lega chamar função dentro de outra assim em qqr linguagem ou só em algumas? Importaria eu declarar uma antes da outra em outra linguagem?
-                    acabou = input("\n\nDeseja jogar novamente?(S/N)\n")[0].upper() #tem uma maneira melhor de organizar os módulos!
+    def montaImagem(self):
+        lim=os.get_terminal_size()[0]
+        ret = "\n\n\nSeus chutes:\n*****"
+        self.abcd
+        for letra in self.chutes:
+            ret+="\n* %s *"%letra
+        ret += u"\n*****\n\nVocê ainda pode chutar:"
+        ret=ret.split("\n") #"abre" pra juntar a img
+        i=3
+        for linha in self.ibagem.conteudo[2].split("\n"):
+            ret[i]+=' '*(lim-23-len(ret[i])) + linha
+            i+=1
+        ret = "\n".join(ret) #"fecha"
+        starline=str("\n" + "*"*(len(self.abcd)*2-1))[:lim]
+        ret += starline + "\n%s"%' '.join(self.abcd) + starline + "\n\n\n%s"%self.forca.__str__(self.num_erros)
+        return ret           
+        
+    
+    def geraQuiz(self):
+        ret=""
+        for letra in self.palavra.conteudo[-1]:
+            if letra in self.chutes:
+                ret += "%s "%letra
             else:
-                    acabou = input("\n\nDeseja jogar novamente?(S/N)\n")[0].upper()
-            if acabou=='N':
-                bye()
-            else:
-                print("\n\nVAMOS JOGAR NOVAMENTE!!\n\n\n\n\n") 
-                return True #fim = True
-    return False #fim = False
+                ret+= "_ "
+        print (u"A palavra é: %s\n"%ret)         
+        return ret
 
+    def sair (self):
+        print (self.ibagem.conteudo[-2])
+        if not input(' '*35):
+            print (self.ibagem.conteudo[-1])
+            exit()  
+        return
 
-def bye(): #atualizei aq pra poder sair do programa a "quaquer hora" e pq a funçao exit() n imprime bunitu assim
-    print(u'''
-******************************************            
-*░░░░░░░░░░░░░░░░░░░░░░█████████░░░░░░░░░*
-*░░███████░░░░░░░░░░███▒▒▒▒▒▒▒▒███░░░░░░░*
-*░░█▒▒▒▒▒▒█░░░░░░░███▒▒▒▒▒▒▒▒▒▒▒▒▒███░░░░*
-*░░░█▒▒▒▒▒▒█░░░░██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░*
-*░░░░█▒▒▒▒▒█░░░██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███░*
-*░░░░░█▒▒▒█░░░█▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██*
-*░░░█████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██*
-*░░░█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██*
-*░██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██*
-*██▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██*
-*█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██*
-*██▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░*
-*░█▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░*
-*░██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█░░░░░*
-*░░████████████░░░█████████████████░░░░░░*
-******************************************
-        * Por hoje é só, pessoal *
-        **************************
-''')
-    exit()
-                       
+    def checaChute(self,chute):
+        if chute not in self.palavra.conteudo[-1]:
+            self.num_erros+=1+self.ishardmode
+        self.abcd.remove(chute)
+        self.chutes.append(chute)
+        return
 
-#main
-print('''
-                      :::!~!!!!!:.
-                  .xUHWH!! !!?M88WHX:.                             __    __    __    __
-                .X*#M@$!!  !X!M$$$$$$WWx:.                        /  \  /  \  /  \  /  \\
-               :!!!!!!?H! :!$!$$$$$$$$$$8X:  ____*_*_*_*_*_*_*___/  __\/  __\/  __\/  __\________ 
-              !!~  ~:~!! :~!$!#$$$$$$$$$$8X: _____P_Y_T_H_O_N___/  /__/  /__/  /__/  /___________
-             :!~::!H!<   ~.U$X!?R$$$$$$$$MM!    * * * * * * * * | / \   / \   / \   / \  \___
-             ~!~!!!!~~ .:XW$$$U!!?$$$$$$RMM!                    |/   \_/   \_/   \_/   \    o \\
-               !:~~~ .:!M"T#$$$$WX??#MRRMMM!                                            \_____/--<
-               ~?WuxiW*`   `"#$$$$8!!!!??!!!                                           
-             :X- M$$$$       `"T#$T~!8$WUXU~ *********   ****    *******    ******    *****
-            :%`  ~#$$$m:        ~!~ ?$$$$$$  ********* ***  ***  ***  ***  ***  ***  *** *** 
-          :!`.-   ~T$$$$8xx.  .xWW- ~""##*"  ***      ***    *** ***  *** ***       ***   ***
-.....   -~~:<` !    ~?T#$$@@W@*?$$      /`   ******   ***    *** ***  *** ***       ***   ***
-W$@@M!!! .!~~ !!     .:XUW$W!~ `"~:    :     ******   ***    *** *******  ***       *********
-#"~~`.:x%`!!  !H:   !WM$$$$Ti.: .!WUn+!`     ***      ***    *** ***  *** ***       *********
-:::~:!!`:X~ .: ?H.!u "$$$B$$$!W:U!T$$M~      ***       ***  ***  ***  ***  ***  *** ***   ***
-.~~   :X@!.-~   ?@WTWo("*$$$W$TH$! `         ***         ****    ***  ***   ******  ***   ***
-Wi.~!X$?!-~    : ?$$$B$Wu("**$RM!
-$R@i.~~ !     :   ~$$$$$B$$en:``
-?MXT@Wx.~    :     ~"##*$$$$M~
-
-                                   *********************
-                                   * B E M  V I N D O !*
-                                   *********************
-    ''')
-while True:    
-    forca=start()
-    #if len(forca[0])<=2: #erro corrigido diretamente pela função escolhePalavra
-        #continue #erro de palavra vazia (corrigido ^)
-    #print(forca[0]) #peep/cheat
-    while True: #era while marcador_forca<8 mas a img tava ficando errada
-        chute=chuta()
-        forca[1]=checaChute(forca[0],chute,forca[1])
-        if fim(bool('_' not in forca[1])): #olha como tava antes (commit: e74bae6556e79143a1ecf77f62decf98c13503b2)
+    def chuta(self):
+        while True: #erros=True
+            chute=input("Chute uma letra:\n")
+            if chute=="exit":
+                self.sair() 
+            if chute=="cheat":
+                print(self.palavra.conteudo[-1])
+                continue
+            if not chute:
+                continue
+            chute=chute[0].upper()            
+            if chute not in self.abcd: 
+                print("\n'%s' não é válido\nou já foi chutado\n"%chute)
+                continue
             break
-        geraImg(forca[1])
+        return chute
+    
+    
+    def ganhei(self,ganhou):
+        if  ganhou:
+            print(self.ibagem.conteudo[4-bool(self.num_erros)])
+        if ganhou and bool(self.num_erros): 
+            print("você errou %i vezes\n\n"%self.num_erros)
+        return ganhou
+ 
+    def addPalavra(self): #da pra dividir essa função
+        if not input(self.ibagem.conteudo[-4]):
+            return
+        lim=3+self.ishardmode-bool(self.num_erros)
+        cont=int(lim)
+        f = open (self.palavra.endereco,'r+')
+        plv = str()
+        while not (plv=='*'):
+            plv = input(u"\nInsira a palavra no singular (não usar 'õ'),\nou digite * para sair do editor: ").upper() 
+            if not plv.isalpha():
+                continue
+            if str(plv + "\n") in f.readlines():
+                print("\nesta palavra já existe no jogo!\n")
+                f.seek(0)
+                continue
+            if input("\nA palavra %s está correta?\nlembre-se da acentuação e ortografia!\n(S/N): "%plv).upper().startswith('S'):
+                f.write("\n%s"%plv)
+                print("\npalavra %s adicionada com sucesso\n\n"%plv)
+                cont-=1
+            if not bool(cont):
+                print("\nvocê adicionou todas as %i palavras!\n"%lim)
+                break
+            print(u"você ainda pode adicionar %i palavras\n"%cont)
+        f.close()
+        return
+          
+    def rodada(self):
+        print(self)
+        if self.ganhei("_" not in self.geraQuiz()):
+            self.addPalavra()
+            return
+        if self.num_erros==9:
+            return
+        self.checaChute(self.chuta())
+        self.rodada()
+
+
+    def jogar(self):
+        self.rodada()
+        if input(self.ibagem.conteudo[-3]).lower().startswith('n'):
+            self.sair()
+        self.__init__(self.ishardmode)
+        self.jogar()
+        return
+    
+
+    def inicio (self):
+        print(self.ibagem.conteudo[0])
+        if self.ishardmode:
+            print("\n\nem modo dificil\n * BOA SORTE! *\n\n")
+        if input("Vocẽ gostaria de ler as regras?(s/n):\n").lower().startswith("s"):
+            print(self.ibagem.conteudo[1])
+            input(u"\nPressione enter↵ para continuar                                        ")
+        return
+forca=Jogo()
+forca.inicio()
+forca.jogar()
+
