@@ -2,13 +2,13 @@ from random import choices as sorteia
 from time import sleep
 from os import get_terminal_size as screen_wxh, getcwd
 from platform import system as os_type
-import sys 
 print (getcwd())
 if os_type() == 'Windows':
     from inputimeout import inputimeout, TimeoutOccurred
     import winsound
     os_iswin=True
 elif os_type() == 'Linux':
+    from sys import stdin, stdout 
     import select
     from playsound import playsound
     os_iswin=False
@@ -47,9 +47,9 @@ def timer_win(t):
 def timer_lin(t):
     mins, secs = divmod(t, 60)
     timer = '{:02d}:{:02d}'.format(mins, secs)
-    sys.stdout.write(timer + "\r")
-    sys.stdout.flush()
-    i, o, e = select.select( [sys.stdin], [], [], 1 )
+    stdout.write(timer + "\r")
+    stdout.flush()
+    i, o, e = select.select( [stdin], [], [], 1 )
     if not i:
         i = None
     return i
