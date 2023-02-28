@@ -1,6 +1,5 @@
 from random import choices as sorteia
 from time import sleep
-from playsound import playsound
 from os import get_terminal_size as screen_wxh,getcwd
 from platform import system as os_type
 import sys 
@@ -11,7 +10,7 @@ if os_type() == 'Windows':
     os_iswin=True
 elif os_type() == 'Linux':
     import select
-    import playsound
+    from playsound import playsound
     os_iswin=False
 else:
     print ("No Apple/Android Users Supported")
@@ -30,8 +29,8 @@ def solto_ponto(pontim_wav):
     if os_iswin:
         winsound.PlaySound(pontim_wav, winsound.SND_FILENAME)
     else:
-    	path = str(getcwd())
-    	pontim_wav = path + pontim_wav
+        path = str(getcwd()+'/')
+        pontim_wav = path + pontim_wav
         playsound(pontim_wav)
     return
 
