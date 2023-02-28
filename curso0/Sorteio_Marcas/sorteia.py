@@ -1,6 +1,6 @@
 from random import choices as sorteia
 from time import sleep
-from os import get_terminal_size as screen_wxh,getcwd
+from os import get_terminal_size as screen_wxh, getcwd
 from platform import system as os_type
 import sys 
 print (getcwd())
